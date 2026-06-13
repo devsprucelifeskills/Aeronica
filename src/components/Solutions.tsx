@@ -1,132 +1,137 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Shield,
-  Brain,
-  Map,
-  Drone,
-  Monitor,
-  Radio,
-} from "lucide-react";
+import { Shield, Brain, Map, Drone, Monitor, Radio, ArrowRight } from "lucide-react";
 
 const solutions = [
   {
     icon: Shield,
     title: "Unified Surveillance System",
-    subtitle: "USS",
-    description:
-      "Next-gen UAV security surveillance SaaS platform for oil & gas pipelines, industrial estates, and smart cities. Integrated with AI/ML cloud-based autonomous systems and precision detection.",
-    href: "#",
+    tag: "USS",
+    description: "Next-gen UAV security surveillance for oil & gas pipelines, industrial estates, and smart cities with automated AI/ML detection.",
   },
   {
     icon: Brain,
     title: "Aeroni.AI",
-    subtitle: "Enterprise AI Platform",
-    description:
-      "Secure, unified enterprise-grade AI platform with deep learning and Intelligent Video Analytics (IVA). Real-time detection, anomaly classification, and actionable intelligence for drones.",
-    href: "#",
+    tag: "Enterprise AI",
+    description: "Secure, unified enterprise-grade AI platform with deep learning and Intelligent Video Analytics (IVA) for real-time aerial intelligence.",
   },
   {
     icon: Map,
     title: "GIS Services",
-    subtitle: "Geospatial Intelligence",
-    description:
-      "Comprehensive GIS solutions powered by drone technology and AI analytics. High-resolution spatial data for infrastructure, land use planning, forestry, mining, and resource management.",
-    href: "#",
+    tag: "Geospatial",
+    description: "Comprehensive GIS mapping powered by drone technology and AI analytics for forestry, mining, and resource management.",
   },
   {
     icon: Drone,
     title: "Drone-as-a-Service",
-    subtitle: "DaaS",
-    description:
-      "End-to-end drone service model covering survey, inspection, mapping, and surveillance. Flexible deployment with trained operators and comprehensive data processing.",
-    href: "#",
+    tag: "DaaS",
+    description: "End-to-end flight services covering survey, inspection, mapping, and surveillance with certified operators and data processing.",
   },
   {
     icon: Monitor,
     title: "Aeroni.Cloud",
-    subtitle: "Cloud Intelligence",
-    description:
-      "Deep analytics, training pipelines, historical comparison and unified dashboards for enterprise reporting. Video cloud storage with smart management tools.",
-    href: "#",
+    tag: "Cloud Platform",
+    description: "Deep analytics, automated training pipelines, historical comparison, and unified dashboards for smart enterprise reporting.",
   },
   {
     icon: Radio,
     title: "Onboard AI Engine",
-    subtitle: "Edge Intelligence",
-    description:
-      "Optimized, power-efficient inference modules running IVA and detection models directly on UAVs for immediate situational awareness and real-time decision making.",
-    href: "#",
+    tag: "Edge Intelligence",
+    description: "Optimized, power-efficient hardware inference modules running detection models directly on the UAV for instant actions.",
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-};
-
 export default function Solutions() {
   return (
-    <section id="solutions" className="py-20 sm:py-28 bg-white">
-      <div className="section-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-midnight mb-6 text-balance">
-            Enterprise{" "}
-            <span className="gradient-text">Solutions</span>
-          </h2>
-          <p className="text-steel text-base sm:text-lg leading-relaxed">
-            From AI-powered surveillance to precision GIS mapping, Aeronica delivers
-            end-to-end solutions that transform how industries operate.
-          </p>
-        </motion.div>
+    <section id="solutions" className="viewport-section bg-midnight relative overflow-hidden">
+      {/* Background Gradients */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,163,255,0.03),transparent_50%)]" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-white/[0.04] pointer-events-none" />
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
-        >
-          {solutions.map((solution) => (
-            <motion.div
-              key={solution.title}
-              variants={itemVariants}
-              className="group bg-white rounded-2xl p-8 card-shadow card-hover border border-light/50"
-            >
-              <div className="w-12 h-12 rounded-xl bg-electric/10 flex items-center justify-center mb-5 group-hover:bg-electric/20 transition-colors">
-                <solution.icon className="w-6 h-6 text-electric" />
-              </div>
-              <span className="text-xs font-semibold text-electric uppercase tracking-wider">
-                {solution.subtitle}
-              </span>
-              <h3 className="font-heading font-bold text-lg text-midnight mt-1 mb-3">
-                {solution.title}
-              </h3>
-              <p className="text-steel text-sm leading-relaxed">
-                {solution.description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
+      <div className="section-container relative z-10">
+        <div className="grid lg:grid-cols-[280px_1fr] gap-8 items-center h-full">
+          
+          {/* Left Column: Branding text & prompt */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="flex flex-col justify-center pr-4 border-r border-white/[0.04] h-full"
+          >
+            <span className="text-[10px] font-bold text-electric uppercase tracking-[0.2em] mb-3">
+              Solutions
+            </span>
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-light leading-[1.15] tracking-tight mb-4">
+              Enterprise <br />
+              <span className="accent-text">Intelligence</span> <br />
+              Verticals.
+            </h2>
+            <p className="text-xs sm:text-sm text-silver/60 leading-relaxed mb-6">
+              From automated security surveillance to precision GIS mapping, 
+              we deliver end-to-end hardware-software integrations that transform 
+              field operations into actionable intelligence.
+            </p>
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-silver/40 font-semibold mt-auto pb-4">
+              <span>Scroll horizontally</span>
+              <ArrowRight size={12} className="animate-bounce-horizontal" style={{ animation: 'bounce-h 1.5s infinite' }} />
+            </div>
+
+            <style jsx global>{`
+              @keyframes bounce-h {
+                0%, 100% { transform: translateX(0); }
+                50% { transform: translateX(4px); }
+              }
+            `}</style>
+          </motion.div>
+
+          {/* Right Column: Horizontal scroll container of cardless solutions */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="flex items-center w-full h-full overflow-hidden"
+          >
+            <div className="flex gap-0 overflow-x-auto scrollbar-hide w-full py-4 snap-x snap-mandatory">
+              {solutions.map((s, idx) => {
+                const Icon = s.icon;
+                return (
+                  <div
+                    key={s.title}
+                    className="min-w-[280px] sm:min-w-[320px] max-w-[320px] px-8 flex flex-col justify-center snap-start border-r border-white/[0.04] group hover:bg-white/[0.01] transition-all duration-300"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-electric/5 flex items-center justify-center mb-5 border border-electric/10 group-hover:bg-electric/10 group-hover:border-electric/25 transition-all duration-300">
+                      <Icon className="w-4 h-4 text-electric" />
+                    </div>
+                    
+                    <span className="text-[9px] font-bold text-silver/40 uppercase tracking-widest block mb-1">
+                      {s.tag}
+                    </span>
+                    
+                    <h3 className="font-heading font-extrabold text-base text-light mb-3 group-hover:text-electric transition-colors duration-300">
+                      {s.title}
+                    </h3>
+                    
+                    <p className="text-xs text-silver/70 leading-relaxed">
+                      {s.description}
+                    </p>
+                    
+                    {/* Visual spacer to align height nicely */}
+                    <div className="h-6" />
+
+                    <div className="text-[10px] font-mono text-silver/30 border-t border-white/[0.04] pt-3 flex items-center justify-between">
+                      <span>MODULE_{idx + 1}</span>
+                      <span className="group-hover:text-electric transition-colors">&bull; ONLINE</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );

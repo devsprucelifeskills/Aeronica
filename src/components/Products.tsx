@@ -1,191 +1,232 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  Drone,
-  Helicopter,
-  Cpu,
-  ArrowRight,
-  Gauge,
-  Ruler,
-  Weight,
-} from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Drone, Helicopter, Cpu, ArrowRight, Gauge, Ruler, Weight, Compass, Eye, ShieldAlert } from "lucide-react";
 
-const products = [
+const productsList = [
   {
+    id: "samrudhhi-10l",
     icon: Drone,
     title: "Samrudhhi-10L",
-    subtitle: "DGCA Type Certified",
-    description:
-      "Small category, DGCA Type Certified quadcopter specifically crafted for agriculture spraying. Saves up to 95% water with ULV formulations. Indigenous design with carbon fibre body.",
+    tag: "DGCA Type Certified",
+    description: "Small category, DGCA Type Certified quadcopter for precision agriculture spraying. Engineered to deliver uniform canopy penetration while saving up to 95% water via Ultra Low Volume (ULV) nozzle systems.",
+    highlight: "Saves 95% Water",
     specs: [
-      { icon: Gauge, label: "16 min Flight Time" },
-      { icon: Ruler, label: "500 m Range" },
-      { icon: Weight, label: "24.9 kg Take-off Weight" },
+      { icon: Gauge, label: "Flight Time", value: "16 min" },
+      { icon: Ruler, label: "Control Range", value: "500 m" },
+      { icon: Weight, label: "Take-off Mass", value: "24.9 kg" },
     ],
-    features: [
-      "Indigenously designed",
-      "Compact & foldable",
-      "Carbon fibre body",
-      "Water & dust resistant",
-    ],
+    technicalMetrics: [
+      { name: "Spraying Capacity", score: 90 },
+      { name: "Wind Resistance", score: 75 },
+      { name: "Safety Redundancy", score: 95 }
+    ]
   },
   {
+    id: "samrudhhi-10lh",
     icon: Drone,
     title: "Samrudhhi-10LH",
-    subtitle: "Heavy Lift Variant",
-    description:
-      "Heavy lift variant of the Samrudhhi series, engineered for larger payload capacity and extended mission profiles across agriculture and industrial applications.",
+    tag: "Heavy Lift Category",
+    description: "Heavy lift variant engineered for larger payload capabilities and extended mission profiles. Ideal for industrial spraying, seed bombing, and heavier payload carrying missions.",
+    highlight: "Double Payload Capacity",
     specs: [
-      { icon: Gauge, label: "Extended Flight Time" },
-      { icon: Ruler, label: "Enhanced Range" },
-      { icon: Weight, label: "Higher Payload Capacity" },
+      { icon: Gauge, label: "Flight Time", value: "24 min" },
+      { icon: Ruler, label: "Control Range", value: "1000 m" },
+      { icon: Weight, label: "Max Payload", value: "16 kg" },
     ],
-    features: [
-      "Heavy lift capability",
-      "Industrial grade",
-      "Robust construction",
-      "Versatile applications",
-    ],
+    technicalMetrics: [
+      { name: "Payload Efficiency", score: 95 },
+      { name: "Structural Durability", score: 90 },
+      { name: "Hover Stability", score: 85 }
+    ]
   },
   {
+    id: "flycra-2.0",
     icon: Helicopter,
     title: "Flycra 2.0",
-    subtitle: "Advanced UAV Platform",
-    description:
-      "Next-generation UAV platform designed for versatility across survey, inspection, and monitoring missions with improved aerodynamics and flight characteristics.",
+    tag: "Advanced Mapping UAV",
+    description: "Next-gen multi-rotor UAV designed specifically for high-accuracy surveying, corridor mapping, and inspections. Optimized aerodynamics offer maximum range with customizable payloads.",
+    highlight: "Sub-Centimeter PPK",
     specs: [
-      { icon: Gauge, label: "Optimized Aerodynamics" },
-      { icon: Ruler, label: "Extended Operational Range" },
-      { icon: Weight, label: "Optimized Payload" },
+      { icon: Gauge, label: "Survey Speed", value: "12 m/s" },
+      { icon: Ruler, label: "Coverage / Flight", value: "2.5 sq km" },
+      { icon: Weight, label: "Payload Flexibility", value: "2.5 kg" },
     ],
-    features: [
-      "Advanced aerodynamics",
-      "Multi-mission capable",
-      "High precision",
-      "Reliable performance",
-    ],
+    technicalMetrics: [
+      { name: "Mapping Precision", score: 98 },
+      { name: "Flight Range", score: 92 },
+      { name: "Data Accuracy", score: 96 }
+    ]
   },
   {
+    id: "nitya-fc",
     icon: Cpu,
     title: "Nitya FC",
-    subtitle: "Flight Controller",
-    description:
-      "Indigenous flight controller engineered for precision, stability, and reliability. Powers Aeronica's drone ecosystem with advanced autopilot capabilities.",
+    tag: "Autopilot Flight Controller",
+    description: "Aeronica's proprietary, indigenously developed flight controller. Engineered for extreme flight stability, multi-sensor redundancy, and fail-safe automation across critical sectors.",
+    highlight: "100% Indigenous IP",
     specs: [
-      { icon: Gauge, label: "High Precision Control" },
-      { icon: Ruler, label: "Advanced Autopilot" },
-      { icon: Weight, label: "Compact Design" },
+      { icon: Gauge, label: "Processor", value: "32-Bit Dual Core" },
+      { icon: Ruler, label: "IMU Sensors", value: "Triple Redundant" },
+      { icon: Weight, label: "Weight", value: "65 grams" },
     ],
-    features: [
-      "Indigenous technology",
-      "Precision engineering",
-      "Stable flight",
-      "Tamper-proof firmware",
-    ],
+    technicalMetrics: [
+      { name: "Automation Precision", score: 99 },
+      { name: "Fault Tolerance", score: 98 },
+      { name: "Update Frequency", score: 95 }
+    ]
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-};
-
 export default function Products() {
+  const [activeProd, setActiveProd] = useState(productsList[0]);
+
   return (
-    <section id="products" className="py-20 sm:py-28 bg-alt-section">
-      <div className="section-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-midnight mb-6 text-balance">
-            Our <span className="gradient-text">Products</span>
-          </h2>
-          <p className="text-steel text-base sm:text-lg leading-relaxed">
-            Drones, built with purpose. Flying with precision. Each product
-            engineered for reliability, compliance, and Indian manufacturing excellence.
-          </p>
-        </motion.div>
+    <section id="products" className="viewport-section bg-midnight relative overflow-hidden">
+      {/* Background Graphic Lines */}
+      <div className="absolute top-[20%] left-0 right-0 h-px bg-white/[0.02] pointer-events-none" />
+      <div className="absolute bottom-[20%] left-0 right-0 h-px bg-white/[0.02] pointer-events-none" />
+      <div className="absolute right-[38.2%] top-0 bottom-0 w-px bg-white/[0.02] pointer-events-none hidden lg:block" />
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid sm:grid-cols-2 gap-6 lg:gap-8"
-        >
-          {products.map((product) => (
-            <motion.div
-              key={product.title}
-              variants={itemVariants}
-              className="group bg-white rounded-2xl p-8 card-shadow card-hover border border-light/50"
-            >
-              <div className="flex items-start gap-4 mb-5">
-                <div className="w-12 h-12 rounded-xl bg-electric/10 flex items-center justify-center shrink-0 group-hover:bg-electric/20 transition-colors">
-                  <product.icon className="w-6 h-6 text-electric" />
-                </div>
+      <div className="section-container relative z-10">
+        <div className="grid lg:grid-cols-[1.618fr_1fr] gap-8 lg:gap-14 items-center h-full">
+          
+          {/* Left Column (61.8% Width): Interactive Telemetry Dashboard */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="flex flex-col justify-center h-full border-r border-white/[0.04] pr-4 lg:pr-10"
+          >
+            <div className="mb-4">
+              <span className="text-[10px] font-bold text-electric uppercase tracking-[0.2em] mb-1 block">
+                Telemetry Dashboard
+              </span>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-electric/5 border border-electric/15 text-[10px] font-semibold text-electric uppercase tracking-wider">
+                <Compass size={11} className="animate-spin" style={{ animationDuration: '8s' }} />
+                {activeProd.tag}
+              </div>
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeProd.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.25 }}
+                className="space-y-6"
+              >
                 <div>
-                  <span className="text-xs font-semibold text-electric uppercase tracking-wider">
-                    {product.subtitle}
-                  </span>
-                  <h3 className="font-heading font-bold text-xl text-midnight mt-0.5">
-                    {product.title}
+                  <h3 className="font-heading font-extrabold text-2xl sm:text-3xl text-light tracking-tight mb-2">
+                    {activeProd.title}
                   </h3>
+                  <p className="text-xs sm:text-sm text-silver/70 leading-relaxed max-w-lg">
+                    {activeProd.description}
+                  </p>
                 </div>
-              </div>
 
-              <p className="text-steel text-sm leading-relaxed mb-5">
-                {product.description}
-              </p>
+                {/* Specs Block (Telemetry stats) */}
+                <div className="grid grid-cols-3 gap-4 border-y border-white/[0.04] py-4">
+                  {activeProd.specs.map((spec, i) => {
+                    const SpecIcon = spec.icon;
+                    return (
+                      <div key={i} className="flex flex-col gap-1">
+                        <div className="flex items-center gap-1.5 text-silver/40 text-[9px] uppercase tracking-wider font-mono">
+                          <SpecIcon size={12} className="text-electric" />
+                          <span>{spec.label}</span>
+                        </div>
+                        <div className="text-light font-heading font-bold text-sm sm:text-base">
+                          {spec.value}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
 
-              <div className="flex flex-wrap gap-2 mb-5">
-                {product.specs.map((spec) => (
-                  <span
-                    key={spec.label}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-electric/5 text-electric text-xs font-medium"
-                  >
-                    <spec.icon size={12} />
-                    {spec.label}
+                {/* Performance Metrics Bars */}
+                <div className="space-y-3">
+                  <span className="text-[9px] font-bold text-silver/40 uppercase tracking-widest block font-mono">
+                    System Metrics Status:
                   </span>
-                ))}
-              </div>
+                  <div className="grid sm:grid-cols-3 gap-3">
+                    {activeProd.technicalMetrics.map((metric, idx) => (
+                      <div key={idx} className="space-y-1">
+                        <div className="flex justify-between items-center text-[9px] font-mono text-silver/70">
+                          <span>{metric.name}</span>
+                          <span className="text-electric font-semibold">{metric.score}%</span>
+                        </div>
+                        <div className="h-1 bg-white/[0.04] rounded-full overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${metric.score}%` }}
+                            transition={{ duration: 0.8, delay: 0.1 }}
+                            className="h-full bg-gradient-to-r from-electric to-neon rounded-full"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-              <div className="flex flex-wrap gap-x-6 gap-y-1.5">
-                {product.features.map((feature) => (
-                  <span
-                    key={feature}
-                    className="text-steel text-xs flex items-center gap-1.5"
+                <div className="pt-2 flex items-center justify-between text-[10px] text-silver/40 font-mono">
+                  <span className="flex items-center gap-1.5"><Eye size={12} className="text-neon" /> Optical Telemetry Ready</span>
+                  <span className="flex items-center gap-1.5"><ShieldAlert size={12} className="text-emerald-400" /> Fail-Safe Active</span>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Right Column (38.2% Width): Product Switcher list */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="flex flex-col justify-center h-full"
+          >
+            <div className="space-y-2 max-w-sm">
+              <span className="text-[10px] font-bold text-silver/40 uppercase tracking-[0.2em] mb-4 block">
+                Select Model
+              </span>
+              
+              {productsList.map((p) => {
+                const ItemIcon = p.icon;
+                const isSelected = activeProd.id === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => setActiveProd(p)}
+                    className={`w-full flex items-center justify-between p-4 rounded-lg text-left transition-all duration-300 border-l-2 ${
+                      isSelected
+                        ? "bg-white/[0.02] border-electric text-light"
+                        : "bg-transparent border-transparent text-silver hover:bg-white/[0.01] hover:text-light"
+                    }`}
                   >
-                    <span className="w-1 h-1 rounded-full bg-electric" />
-                    {feature}
-                  </span>
-                ))}
-              </div>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded bg-white/[0.02] flex items-center justify-center border ${
+                        isSelected ? "border-electric/30" : "border-white/5"
+                      }`}>
+                        <ItemIcon size={14} className={isSelected ? "text-electric" : "text-silver"} />
+                      </div>
+                      <div>
+                        <div className="font-heading font-extrabold text-xs uppercase tracking-wider">{p.title}</div>
+                        <div className="text-[9px] text-silver/40">{p.highlight}</div>
+                      </div>
+                    </div>
+                    
+                    <ArrowRight size={13} className={`transition-transform duration-300 ${
+                      isSelected ? "translate-x-1 text-electric" : "opacity-0"
+                    }`} />
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
 
-              <div className="mt-6 pt-4 border-t border-light">
-                <span className="inline-flex items-center gap-1.5 text-electric text-sm font-medium group-hover:gap-2.5 transition-all">
-                  Learn more <ArrowRight size={14} />
-                </span>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

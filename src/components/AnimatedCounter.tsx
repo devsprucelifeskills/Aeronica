@@ -49,3 +49,5 @@ export default function AnimatedCounter({
     </span>
   );
 }
+
+

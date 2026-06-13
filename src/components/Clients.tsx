@@ -3,58 +3,53 @@
 import { motion } from "framer-motion";
 
 const clients = [
-  "IOCL",
-  "BASF",
-  "JSW",
-  "Asian Paints",
-  "LTIMindtree",
-  "Bharat Petroleum",
-  "Central Railway",
-  "Saguna Bagh",
-  "SRV Media",
-  "Infostorm",
-  "Padeco",
-  "Amazing Aerial",
+  "IOCL", "BASF", "JSW", "Asian Paints",
+  "LTIMindtree", "Bharat Petroleum", "Central Railway", "Saguna Bagh",
+  "SRV Media", "Infostorm", "Padeco", "Amazing Aerial",
 ];
+
+const doubleClients = [...clients, ...clients];
 
 export default function Clients() {
   return (
-    <section className="py-20 sm:py-28 bg-white">
-      <div className="section-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-midnight mb-6 text-balance">
-            Trusted By Industry{" "}
-            <span className="gradient-text">Leaders</span>
-          </h2>
-          <p className="text-steel text-base sm:text-lg leading-relaxed">
-            Partnering with Indias foremost organizations to deliver transformative
-            drone and geospatial solutions.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 lg:gap-6">
-          {clients.map((name, index) => (
-            <motion.div
-              key={name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.4, delay: index * 0.04 }}
-              className="h-20 rounded-2xl bg-alt-section border border-light/50 card-shadow flex items-center justify-center px-4 group hover:border-electric/20 hover:bg-electric/[0.02] transition-all"
-            >
-              <span className="font-heading font-bold text-sm text-steel group-hover:text-electric transition-colors text-center leading-tight">
-                {name}
-              </span>
-            </motion.div>
-          ))}
+    <div className="py-8 bg-midnight border-y border-white/[0.03] overflow-hidden relative">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col md:flex-row items-center gap-6 justify-between">
+        
+        {/* Ticker Title */}
+        <div className="shrink-0 text-center md:text-left">
+          <span className="text-[9px] font-bold text-silver/40 uppercase tracking-[0.2em] block">Trusted By</span>
+          <span className="text-xs font-heading font-extrabold text-light">Industry Leaders</span>
         </div>
+
+        {/* Ticker Marquee */}
+        <div className="flex-1 w-full overflow-hidden relative mask-gradient">
+          <div className="flex gap-4 w-full">
+            <motion.div
+              initial={{ x: 0 }}
+              animate={{ x: "-50%" }}
+              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              className="flex gap-4 shrink-0"
+            >
+              {doubleClients.map((name, i) => (
+                <div
+                  key={`${name}-${i}`}
+                  className="h-10 px-5 rounded border border-white/5 bg-white/[0.01] flex items-center justify-center shrink-0 hover:border-electric/25 hover:bg-white/[0.02] transition-colors duration-300"
+                >
+                  <span className="font-heading font-bold text-xs text-silver/80 whitespace-nowrap">{name}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+
       </div>
-    </section>
+
+      <style jsx>{`
+        .mask-gradient {
+          mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+          -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+        }
+      `}</style>
+    </div>
   );
 }

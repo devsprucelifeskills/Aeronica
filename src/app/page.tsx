@@ -6,26 +6,22 @@ import Industries from "@/components/Industries";
 import WhyAeronica from "@/components/WhyAeronica";
 import Products from "@/components/Products";
 import Process from "@/components/Process";
-import Stats from "@/components/Stats";
 import Clients from "@/components/Clients";
 import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <main className="relative bg-midnight">
       <Header />
       <Hero />
       <About />
       <Solutions />
       <Industries />
       <WhyAeronica />
+      <Clients />
       <Products />
       <Process />
-      <Stats />
-      <Clients />
       <Contact />
-      <Footer />
     </main>
   );
 }
